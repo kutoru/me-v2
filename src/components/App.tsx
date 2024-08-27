@@ -1,5 +1,38 @@
 import "../index.css";
 
+document.addEventListener("DOMContentLoaded", changeTopMargin);
+window.addEventListener("resize", changeTopMargin);
+
+let header: Element | undefined = undefined;
+let app: ElementCSSInlineStyle | undefined = undefined;
+let lastHeight = 0;
+
+function changeTopMargin(e: Event) {
+  if (!header) {
+    header = document.getElementsByClassName("header")[0];
+  }
+  if (!header) {
+    return;
+  }
+
+  const height = header.getBoundingClientRect().height;
+  if (height == lastHeight) {
+    return;
+  }
+
+  if (!app) {
+    app = document.getElementsByClassName(
+      "app"
+    )[0] as unknown as ElementCSSInlineStyle;
+  }
+  if (!app) {
+    return;
+  }
+
+  lastHeight = height;
+  app.style.marginTop = `calc(${height}px + var(--top-body-spacing))`;
+}
+
 export default function App() {
   return (
     <div className="app">

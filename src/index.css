@@ -29,6 +29,7 @@ code {
   --font-size-big: 1.75rem;
 
   --spacing: 1rem;
+  --top-body-spacing: var(--spacing);
 }
 
 #root {
@@ -39,6 +40,8 @@ code {
 }
 
 .header {
+  position: fixed;
+  width: 100%;
   background-color: var(--bg-color);
   display: flex;
   flex-direction: row;
@@ -94,6 +97,7 @@ h2 {
 @media (max-width: 1000px) {
   :root {
     --spacing: 0.5rem;
+    --top-body-spacing: 0px;
   }
 
   .app {
