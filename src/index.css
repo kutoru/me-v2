@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -19,9 +24,11 @@ code {
   --fg-color-sec: #b1c1e1;
   --fg-color-mid: #525969;
 
-  --font-size-sm: 1rem;
-  --font-size-med: 1.5rem;
-  --font-size-big: 2rem;
+  --font-size-sm: 1.25rem;
+  --font-size: 1.5rem;
+  --font-size-big: 1.75rem;
+
+  --spacing: 1rem;
 }
 
 #root {
@@ -36,7 +43,7 @@ code {
   display: flex;
   flex-direction: row;
   color: var(--fg-color);
-  font-size: var(--font-size-med);
+  font-size: var(--font-size);
   border-bottom: 5px solid var(--fg-color-sec);
 }
 
@@ -57,18 +64,41 @@ code {
 
 .app {
   background-color: var(--bg-color-sec);
-  text-align: center;
   flex: 1 1;
-  font-size: var(--font-size-med);
+  font-size: var(--font-size);
   color: var(--fg-color);
+  width: calc(1250px - var(--spacing) * 2);
+  margin: var(--spacing) auto;
+  border-radius: 1rem;
+  padding: var(--spacing);
+}
+
+h2 {
+  text-align: center;
 }
 
 .footer {
   text-align: center;
   background-color: var(--bg-color);
-  /* display: flex; */
-  /* flex-direction: row; */
   color: var(--fg-color);
   font-size: var(--font-size-sm);
   border-top: 5px solid var(--fg-color-sec);
+}
+
+@media (max-width: 1500px) {
+  .app {
+    width: calc(1000px - var(--spacing) * 3);
+  }
+}
+
+@media (max-width: 1000px) {
+  :root {
+    --spacing: 0.5rem;
+  }
+
+  .app {
+    width: calc(100% - var(--spacing) * 2);
+    border-radius: 0;
+    margin: 0 auto;
+  }
 }

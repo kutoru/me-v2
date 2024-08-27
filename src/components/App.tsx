@@ -3,10 +3,8 @@ import "../index.css";
 export default function App() {
   return (
     <div className="app">
-      alsdjkal;sdj alk;sjl; jal;dsja Hello there
-      <br />
-      Hello there again
-      <br />
+      <h2>alsdjkal;sdj alk;sjl; jal;dsja Hello there</h2>
+      <h2>Hello there again</h2>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam
       deserunt eaque vitae! Ipsum perferendis libero tempora, cumque neque odit
       vitae inventore eveniet? Hic aut animi doloremque adipisci, maiores ea
