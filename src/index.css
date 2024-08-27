@@ -11,3 +11,64 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --bg-color: #282c34;
+  --bg-color-sec: #353a44;
+  --fg-color: white;
+  --fg-color-sec: #b1c1e1;
+  --fg-color-mid: #525969;
+
+  --font-size-sm: 1rem;
+  --font-size-med: 1.5rem;
+  --font-size-big: 2rem;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: var(--bg-color);
+}
+
+.header {
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: row;
+  color: var(--fg-color);
+  font-size: var(--font-size-med);
+  border-bottom: 5px solid var(--fg-color-sec);
+}
+
+.header > div {
+  flex: 1 1 0;
+  text-align: center;
+  border-left: 1px solid var(--fg-color-mid);
+  border-right: 1px solid var(--fg-color-mid);
+}
+
+.header > div:first-child {
+  border-left: 2px solid var(--fg-color-mid);
+}
+
+.header > div:last-child {
+  border-right: 2px solid var(--fg-color-mid);
+}
+
+.app {
+  background-color: var(--bg-color-sec);
+  text-align: center;
+  flex: 1 1;
+  font-size: var(--font-size-med);
+  color: var(--fg-color);
+}
+
+.footer {
+  text-align: center;
+  background-color: var(--bg-color);
+  /* display: flex; */
+  /* flex-direction: row; */
+  color: var(--fg-color);
+  font-size: var(--font-size-sm);
+  border-top: 5px solid var(--fg-color-sec);
+}
