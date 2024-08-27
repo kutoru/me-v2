@@ -1,3 +1,7 @@
+import { ReactElement } from "react";
+import HeaderData from "../../types/HeaderData";
+import HeaderItem from "./HeaderItem";
+
 window.addEventListener("scroll", toggleHeader);
 
 let header: ElementCSSInlineStyle | undefined = undefined;
@@ -42,13 +46,44 @@ function loadHeader() {
 }
 
 export default function Header() {
+  const items: HeaderData[] = [
+    {
+      title: "About Me",
+      title_short: "Me",
+      href: "/",
+    },
+    {
+      title: "My Projects",
+      title_short: "Projects",
+      href: "/projects",
+    },
+    {
+      title: "My GitHub Profile",
+      title_short: "GitHub",
+      href: "https://github.com/kutoru",
+    },
+  ];
+
+  function mapItems(): ReactElement[] {
+    const elements: ReactElement[] = [];
+
+    items.forEach((item, index) => {
+      if (index != 0) {
+        elements.push(
+          <div key={elements.length} className="header-item-separator"></div>
+        );
+      }
+
+      elements.push(<HeaderItem key={elements.length} item={item} />);
+    });
+
+    return elements;
+  }
+
   return (
     <div className="header">
-      <div>About me</div>
-      <div>Projects</div>
-      <div>
-        <a href="https://github.com/kutoru">My GitHub profile</a>
-      </div>
+      <div className="header-item-container">{mapItems()}</div>
+      <div className="separator-big" />
     </div>
   );
 }
