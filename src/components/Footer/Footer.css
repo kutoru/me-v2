@@ -1,0 +1,19 @@
+.footer {
+  text-align: center;
+  background-color: var(--bg-color);
+  transition: box-shadow 150ms ease-in-out;
+}
+
+.footer:hover {
+  box-shadow: 0 0 100px 25px rgba(0, 0, 0, 1);
+}
+
+.footer:hover > .separator-big {
+  box-shadow: 0 0 10px 0px var(--fg-color-sec);
+}
+
+.footer-item {
+  font-size: var(--font-size-sm);
+  color: lightgray;
+  margin: var(--spacing-sm);
+}

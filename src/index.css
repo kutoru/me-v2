@@ -4,7 +4,6 @@
 }
 
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -47,49 +46,6 @@ code {
   transition: box-shadow 100ms ease-in-out;
 }
 
-.header {
-  position: fixed;
-  width: 100%;
-}
-
-.header-item-container {
-  background-color: var(--bg-color);
-  display: flex;
-  flex-direction: row;
-  color: var(--fg-color);
-  font-size: var(--font-size);
-}
-
-.header > .header-item-container:hover ~ .separator-big {
-  box-shadow: 0 0 10px 0px var(--fg-color-sec);
-}
-
-.header-item {
-  flex: 1 1 0;
-  text-align: center;
-  padding: var(--spacing-sm);
-  user-select: none;
-  cursor: pointer;
-  z-index: 1;
-
-  transition:
-    box-shadow 100ms ease-in-out,
-    text-shadow 100ms ease-in-out,
-    background-color 100ms ease-in-out;
-}
-
-.header-item:hover {
-  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.33);
-  text-shadow: 0 0 15px var(--fg-color-sec);
-  background-color: var(--bg-color-sec);
-}
-
-.header-item-separator {
-  width: 3px;
-  flex: 0 0 auto;
-  background-color: var(--fg-color-mid);
-}
-
 .media-size-normal {
   display: inline;
 }
@@ -98,40 +54,8 @@ code {
   display: none;
 }
 
-.app {
-  background-color: var(--bg-color-sec);
-  flex: 1 1;
-  font-size: var(--font-size);
-  color: var(--fg-color);
-  width: calc(1250px - var(--spacing) * 4 + 50px);
-  margin: var(--spacing) auto;
-  border-radius: 1rem;
-  padding: var(--spacing);
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.25);
-}
-
 h2 {
   text-align: center;
-}
-
-.footer {
-  text-align: center;
-  background-color: var(--bg-color);
-  transition: box-shadow 150ms ease-in-out;
-}
-
-.footer:hover {
-  box-shadow: 0 0 100px 25px rgba(0, 0, 0, 1);
-}
-
-.footer:hover > .separator-big {
-  box-shadow: 0 0 10px 0px var(--fg-color-sec);
-}
-
-.footer-item {
-  font-size: var(--font-size-sm);
-  color: lightgray;
-  margin: var(--spacing-sm);
 }
 
 a, a:visited {
@@ -141,12 +65,6 @@ a, a:visited {
 
 a:hover {
   color: #3e70ae;
-}
-
-@media (max-width: 1500px) {
-  .app {
-    width: calc(1000px - var(--spacing) * 5 + 50px);
-  }
 }
 
 @media (max-width: 1050px) {
@@ -161,11 +79,5 @@ a:hover {
 
   .media-size-small {
     display: inline;
-  }
-
-  .app {
-    width: calc(100% - var(--spacing) * 2);
-    border-radius: 0;
-    margin: 0 auto;
   }
 }

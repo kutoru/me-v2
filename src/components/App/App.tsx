@@ -1,3 +1,5 @@
+import "./App.css";
+
 document.addEventListener("DOMContentLoaded", changeTopMargin);
 window.addEventListener("resize", changeTopMargin);
 

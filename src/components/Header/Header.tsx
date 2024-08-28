@@ -1,3 +1,4 @@
+import "./Header.css";
 import { ReactElement } from "react";
 import HeaderData from "../../types/HeaderData";
 import HeaderItem from "./HeaderItem";
