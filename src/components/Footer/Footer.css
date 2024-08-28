@@ -12,8 +12,30 @@
   box-shadow: 0 0 10px 0px var(--fg-color-sec);
 }
 
-.footer-item {
+.footer-item-text {
   font-size: var(--font-size-sm);
   color: lightgray;
   margin: var(--spacing-sm);
+  margin-top: 0;
+}
+
+.footer-item-icon {
+  margin: var(--spacing-sm);
+  display: inline-block;
+}
+
+.footer > .footer-item-icon:nth-child(2) {
+  margin-right: 0;
+}
+
+.icon {
+  cursor: pointer;
+  width: 3.5rem;
+  height: 3.5rem;
+  fill: lightgray;
+  transition: fill 100ms ease-in-out;
+}
+
+.icon:hover {
+  fill: gray;
 }
