@@ -69,7 +69,7 @@ export default function Header() {
     const elements: ReactElement[] = [];
 
     items.forEach((item, index) => {
-      if (index != 0) {
+      if (index !== 0) {
         elements.push(
           <div key={elements.length} className="header-item-separator"></div>
         );

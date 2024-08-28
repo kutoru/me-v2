@@ -16,7 +16,7 @@ function changeTopMargin(e: Event) {
   }
 
   const height = header.getBoundingClientRect().height;
-  if (height == lastHeight) {
+  if (height === lastHeight) {
     return;
   }
 
