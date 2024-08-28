@@ -65,6 +65,8 @@ export default function Header() {
     },
   ];
 
+  const currentPath = window.location.pathname;
+
   function mapItems(): ReactElement[] {
     const elements: ReactElement[] = [];
 
@@ -75,7 +77,13 @@ export default function Header() {
         );
       }
 
-      elements.push(<HeaderItem key={elements.length} item={item} />);
+      elements.push(
+        <HeaderItem
+          key={elements.length}
+          item={item}
+          active={item.href === currentPath}
+        />
+      );
     });
 
     return elements;
