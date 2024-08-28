@@ -33,13 +33,6 @@ code {
   --top-body-spacing: var(--spacing);
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-  background-color: var(--bg-color-third);
-}
-
 .separator-big {
   height: 5px;
   background-color: var(--fg-color-sec);
@@ -59,7 +52,7 @@ h2 {
 }
 
 .underline {
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 a, a:visited {

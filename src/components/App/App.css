@@ -1,4 +1,11 @@
 .app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: var(--bg-color-third);
+}
+
+.content {
   background-color: var(--bg-color-sec);
   flex: 1 1;
   font-size: var(--font-size);
@@ -11,18 +18,18 @@
   transition: box-shadow 100ms ease-in-out;
 }
 
-.app:hover {
+.content:hover {
   box-shadow: 0 0 30px 3px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 1500px) {
-  .app {
+  .content {
     width: calc(1000px - var(--spacing) * 5 + 50px);
   }
 }
 
 @media (max-width: 1050px) {
-  .app {
+  .content {
     width: calc(100% - var(--spacing) * 2);
     border-radius: 0;
     margin: 0 auto;

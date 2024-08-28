@@ -15,6 +15,11 @@
   box-shadow: 0 0 10px 0px var(--fg-color-sec);
 }
 
+.header-item-container > a {
+  color: var(--fg-color);
+  text-decoration: none;
+}
+
 .header-item {
   flex: 1 1 0;
   text-align: center;
