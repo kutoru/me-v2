@@ -8,6 +8,11 @@
   border-radius: 1rem;
   padding: var(--spacing);
   box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 100ms ease-in-out;
+}
+
+.app:hover {
+  box-shadow: 0 0 30px 3px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 1500px) {

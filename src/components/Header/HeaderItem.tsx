@@ -2,7 +2,7 @@ import HeaderData from "../../types/HeaderData";
 
 export default function HeaderItem({ item }: { item: HeaderData }) {
   function redirect(href: string) {
-    console.log("Redirect to", href);
+    window.location.href = href;
   }
 
   return (
