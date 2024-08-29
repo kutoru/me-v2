@@ -1,19 +1,18 @@
 import { ReactElement, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import "./App.css";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+import Header from "./Header/Header";
+import Footer from "./Footer";
 
 document.addEventListener("DOMContentLoaded", (_) => changeTopMargin(false));
 window.addEventListener("resize", (_) => changeTopMargin(false));
 
-let header: Element | undefined = undefined;
-let content: ElementCSSInlineStyle | undefined = undefined;
+let header: HTMLElement | null = null;
+let content: HTMLElement | null = null;
 let lastHeight = 0;
 
 function changeTopMargin(force: boolean) {
   if (!header || force) {
-    header = document.getElementsByClassName("header")[0];
+    header = document.getElementById("header");
   }
   if (!header) {
     return;
@@ -25,9 +24,7 @@ function changeTopMargin(force: boolean) {
   }
 
   if (!content || force) {
-    content = document.getElementsByClassName(
-      "content"
-    )[0] as unknown as ElementCSSInlineStyle;
+    content = document.getElementById("content");
   }
   if (!content) {
     return;
@@ -45,9 +42,14 @@ export default function App({ content }: { content: ReactElement }) {
   }, [location]);
 
   return (
-    <div className="app">
+    <div className="flex flex-col min-h-dvh bg-main-dark-1 font-main">
       <Header />
-      <div className="content">{content}</div>
+      <div
+        id="content"
+        className="flex-grow flex text-main-light-1 text-2xl w-full lg:w-content-lg lg:mx-auto lg:mb-4 xl:w-content-xl"
+      >
+        {content}
+      </div>
       <Footer />
     </div>
   );

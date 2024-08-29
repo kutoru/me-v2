@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color-1: #1e2127;
+  --bg-color-2: #282c34;
+  --bg-color-3: #353a44;
+  --fg-color-1: white;
+  --fg-color-2: #b1c1e1;
+  --fg-color-3: #525969;
+
+  --top-body-spacing: 1rem;
+}
+
+.transition-main {
+  transition: all 150ms ease-in-out;
+}
+
+a, a:visited {
+  color: #59a4ff;
+  transition: all 150ms ease-in-out;
+}
+
+a:hover {
+  color: #3e70ae;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --top-body-spacing: 0px;
+  }
+}

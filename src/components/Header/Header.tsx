@@ -1,11 +1,10 @@
-import "./Header.css";
 import { ReactElement } from "react";
 import HeaderData from "../../types/HeaderData";
 import HeaderItem from "./HeaderItem";
 
 window.addEventListener("scroll", toggleHeader);
 
-let header: ElementCSSInlineStyle | undefined = undefined;
+let header: HTMLElement | null = null;
 let lastScrollPosition = 0;
 let lastTopPosition = 0;
 let currentTopValue = 0;
@@ -40,9 +39,7 @@ function toggleHeader(e: Event) {
 
 function loadHeader() {
   if (!header) {
-    header = document.getElementsByClassName(
-      "header"
-    )[0] as unknown as ElementCSSInlineStyle;
+    header = document.getElementById("header");
   }
 }
 
@@ -73,7 +70,10 @@ export default function Header() {
     items.forEach((item, index) => {
       if (index !== 0) {
         elements.push(
-          <div key={elements.length} className="header-item-separator"></div>
+          <div
+            key={elements.length}
+            className="w-0.5 flex-none bg-main-light-3"
+          ></div>
         );
       }
 
@@ -90,9 +90,11 @@ export default function Header() {
   }
 
   return (
-    <div className="header">
-      <div className="header-item-container">{mapItems()}</div>
-      <div className="separator-big" />
+    <div id="header" className="fixed w-full">
+      <div className="peer/header flex flex-row text-main-light-1 text-2xl bg-main-dark-2">
+        {mapItems()}
+      </div>
+      <div className="h-1 bg-main-light-2 transition-main peer-hover/header:shadow-separator" />
     </div>
   );
 }
