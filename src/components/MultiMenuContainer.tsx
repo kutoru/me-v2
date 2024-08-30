@@ -44,9 +44,10 @@ function updateSize(animate: boolean) {
   sectionCont.style.width = `${resultWidth}px`;
 
   if (expandedOuter) {
+    const shadowSize = screenWidth + offsetWidth;
     sectionCont.style.transform = `translate(0px, 0px)`;
-    sideSection.style.boxShadow = `0 0 ${offsetWidth * 2}px ${
-      (offsetWidth * 2) / 5
+    sideSection.style.boxShadow = `0 0 ${shadowSize}px ${
+      shadowSize / 8
     }px rgba(0, 0, 0, 1)`;
     contentCover.style.left = `${offsetWidth}px`;
     contentCover.style.display = "block";

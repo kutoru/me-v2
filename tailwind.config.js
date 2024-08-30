@@ -40,9 +40,12 @@ module.exports = {
         footer: "0 0 100px 25px rgba(0, 0, 0, 1)",
         separator: "0 0 10px 0px var(--fg-color-2)",
         "header-item": "0 0 10px 3px rgba(0, 0, 0, 0.33)",
+        "skill-container": "0 0 0.5rem 0 rgba(0, 0, 0, 0.25)",
+        "skill-bar": "0 0 0.25rem 0 var(--fg-color-2)",
       },
       dropShadow: {
         "header-item": "0 0 15px var(--fg-color-2)",
+        skill: "0 0 0.25rem var(--fg-color-2)",
       },
       width: {
         "content-lg": "calc(1024px - 3rem)",

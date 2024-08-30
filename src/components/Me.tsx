@@ -1,10 +1,82 @@
+import { ReactElement } from "react";
 import MultiMenuContainer from "./MultiMenuContainer";
 
+type SkillData = {
+  name: string;
+  amount: number;
+};
+
 export default function Me() {
+  const skills: SkillData[] = [
+    {
+      name: "React",
+      amount: 69,
+    },
+    {
+      name: "TypeScript",
+      amount: 80,
+    },
+    {
+      name: "Kotlin",
+      amount: 85,
+    },
+    {
+      name: "Rust",
+      amount: 75,
+    },
+    {
+      name: "Some skill 1",
+      amount: 8,
+    },
+    {
+      name: "Some skill 5",
+      amount: 50,
+    },
+    {
+      name: "Some skill 2",
+      amount: 0,
+    },
+    {
+      name: "Some skill 3",
+      amount: 34,
+    },
+    {
+      name: "Some skill 6",
+      amount: 92,
+    },
+  ];
+
+  function mapSkills(): ReactElement[] {
+    const elements: ReactElement[] = [];
+
+    skills.forEach((skill) => {
+      elements.push(
+        <div className="group/skill grid grid-cols-2 w-full bg-main-dark-2 my-2 rounded-xl p-2 transition-main hover:shadow-skill-container">
+          <div className="pe-2 text-xl cursor-default transition-main group-hover/skill:drop-shadow-skill">
+            {skill.name}
+          </div>
+          <div className="rounded-lg bg-main-light-3">
+            <div
+              className="bg-main-light-2 h-full rounded-s-lg transition-main group-hover/skill:shadow-skill-bar"
+              style={{ width: `${skill.amount}%` }}
+            ></div>
+          </div>
+        </div>
+      );
+    });
+
+    return elements;
+  }
+
   return (
     <MultiMenuContainer
       id="me"
-      sideBarChild={"My skills here"}
+      sideBarChild={
+        <div>
+          <div className="text-center font-semibold">My technical skills</div>
+          {mapSkills()}
+        </div>
+      }
       mainContentChild={
         <div>
           <h1 className="text-4xl font-semibold text-center">Hello there</h1>
