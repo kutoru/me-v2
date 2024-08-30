@@ -1,15 +1,29 @@
 import { ReactNode, useEffect, useState } from "react";
 import ContentContainer from "./ContentContainer";
 import { ReactComponent as IconMenu } from "../static/menu.svg";
-import { useLocation } from "react-router-dom";
 
-window.addEventListener("resize", (_) => updateSize(false));
+window.addEventListener("resize", (_) => {
+  if (window.innerWidth != lastWidth) {
+    lastWidth = window.innerWidth;
+    updateSize();
+  }
+});
+
+let lastWidth = 0;
+let lastUpdated = 0;
 
 let mainContainerId = "";
 let contentCoverId = "";
 let expandedOuter = false;
 
-function updateSize(animate: boolean) {
+function updateSize() {
+  const now = Date.now();
+  if (lastUpdated + 16 > now) {
+    return;
+  }
+
+  lastUpdated = now;
+
   const mainCont = document.getElementById(mainContainerId);
   const sectionCont = mainCont?.children[0] as HTMLElement | undefined;
   const sideSection = sectionCont?.children[0] as HTMLElement | undefined;
@@ -17,12 +31,6 @@ function updateSize(animate: boolean) {
 
   if (!mainCont || !sectionCont || !sideSection || !contentCover) {
     return;
-  }
-
-  if (!animate) {
-    sectionCont.style.transition = "";
-  } else {
-    sectionCont.style.transition = "transform 150ms ease-in-out";
   }
 
   if (window.innerWidth >= 768) {
@@ -44,11 +52,12 @@ function updateSize(animate: boolean) {
   sectionCont.style.width = `${resultWidth}px`;
 
   if (expandedOuter) {
-    const shadowSize = screenWidth + offsetWidth;
+    const shadowSize = screenWidth - offsetWidth;
     sectionCont.style.transform = `translate(0px, 0px)`;
     sideSection.style.boxShadow = `0 0 ${shadowSize}px ${
-      shadowSize / 8
+      shadowSize / 3
     }px rgba(0, 0, 0, 1)`;
+
     contentCover.style.left = `${offsetWidth}px`;
     contentCover.style.display = "block";
   } else {
@@ -57,7 +66,9 @@ function updateSize(animate: boolean) {
     contentCover.style.display = "";
   }
 
-  sectionCont.style.transition = "transform 150ms ease-in-out";
+  setTimeout(() => {
+    sectionCont.style.transition = "transform 150ms ease-in-out";
+  }, 16);
 }
 
 export default function MultiMenuContainer({
@@ -70,20 +81,14 @@ export default function MultiMenuContainer({
   mainContentChild: ReactNode;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const location = useLocation();
 
   mainContainerId = idPrefix + "-container";
   contentCoverId = idPrefix + "-content-cover";
-  expandedOuter = expanded;
 
   useEffect(() => {
     expandedOuter = expanded;
-    updateSize(true);
+    updateSize();
   }, [expanded]);
-
-  useEffect(() => {
-    updateSize(false);
-  }, [location]);
 
   return (
     <div id={mainContainerId} className="flex flex-grow">
