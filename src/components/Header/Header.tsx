@@ -1,25 +1,35 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import HeaderData from "../../types/HeaderData";
 import HeaderItem from "./HeaderItem";
+import { useLocation } from "react-router-dom";
 
 window.addEventListener("scroll", toggleHeader);
 
 let header: HTMLElement | null = null;
+let button: HTMLElement | null = null;
+
 let lastScrollPosition = 0;
 let lastTopPosition = 0;
 let currentTopValue = 0;
-const headerScrollOffset = 100;
 
-function toggleHeader(e: Event) {
-  loadHeader();
+function toggleHeader(_: Event) {
+  loadElements();
   if (!header) {
     return;
   }
 
+  let buttonHeight = 0;
+  if (button) {
+    buttonHeight = button.getBoundingClientRect().height + 16;
+  }
+
+  const headerHeight = header.getBoundingClientRect().height;
+  const headerScrollOffset = headerHeight + 16 + buttonHeight;
+
   if (lastScrollPosition - window.scrollY < 0) {
     lastScrollPosition = window.scrollY;
     currentTopValue = lastTopPosition - window.scrollY;
-    header.style.top = `${currentTopValue}px`;
+    updatePosition(currentTopValue, headerHeight);
   } else {
     lastScrollPosition = window.scrollY;
 
@@ -30,20 +40,61 @@ function toggleHeader(e: Event) {
     currentTopValue = lastTopPosition - window.scrollY;
     if (currentTopValue > 0) {
       lastTopPosition = window.scrollY;
-      header.style.top = "0px";
+      updatePosition(0, headerHeight);
     } else {
-      header.style.top = `${currentTopValue}px`;
+      updatePosition(currentTopValue, headerHeight);
     }
   }
 }
 
-function loadHeader() {
-  if (!header) {
+function loadElements(forceReload: boolean = false) {
+  if (!header || forceReload) {
     header = document.getElementById("header");
+  }
+  if (!button || forceReload) {
+    button = document.getElementById("expand-button");
   }
 }
 
+function updatePosition(topValue?: number, headerHeight?: number) {
+  updateHeaderPosition(topValue);
+  updateButtonPosition(topValue, headerHeight);
+}
+
+function updateHeaderPosition(topValue?: number) {
+  if (topValue === undefined) {
+    topValue = currentTopValue;
+  }
+
+  if (header) {
+    header.style.top = `${topValue}px`;
+  }
+}
+
+function updateButtonPosition(topValue?: number, headerHeight?: number) {
+  if ((!headerHeight && !header) || !button) {
+    return;
+  }
+
+  if (topValue === undefined) {
+    topValue = currentTopValue;
+  }
+
+  if (!headerHeight) {
+    headerHeight = header!.getBoundingClientRect().height;
+  }
+
+  button.style.top = `calc(${headerHeight}px + 0.5rem + ${topValue}px)`;
+}
+
 export default function Header() {
+  const location = useLocation();
+
+  useEffect(() => {
+    loadElements(true);
+    updateButtonPosition(0);
+  }, [location]);
+
   const items: HeaderData[] = [
     {
       title: "About Me",
@@ -90,7 +141,7 @@ export default function Header() {
   }
 
   return (
-    <div id="header" className="fixed w-full">
+    <div id="header" className="fixed w-full z-20">
       <div className="peer/header flex flex-row text-main-light-1 text-2xl bg-main-dark-2">
         {mapItems()}
       </div>
