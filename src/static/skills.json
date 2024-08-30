@@ -1,0 +1,38 @@
+[
+  {
+    "name": "React",
+    "amount": 69
+  },
+  {
+    "name": "TypeScript",
+    "amount": 80
+  },
+  {
+    "name": "Kotlin",
+    "amount": 85
+  },
+  {
+    "name": "Rust",
+    "amount": 75
+  },
+  {
+    "name": "Some skill 1",
+    "amount": 8
+  },
+  {
+    "name": "Some skill 5",
+    "amount": 50
+  },
+  {
+    "name": "Some skill 2",
+    "amount": 0
+  },
+  {
+    "name": "Some skill 3",
+    "amount": 34
+  },
+  {
+    "name": "Some skill 6",
+    "amount": 92
+  }
+]
