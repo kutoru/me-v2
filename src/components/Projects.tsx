@@ -11,7 +11,7 @@ export default function Projects() {
 
     projects.forEach((project, index) => {
       elements.push(
-        <div key={elements.length}>
+        <div key={elements.length} className="my-2 cursor-default">
           {index + 1}. <a href={"#" + project.name}>{project.name}</a>
         </div>
       );
@@ -48,10 +48,30 @@ export default function Projects() {
           <div className="text-lg text-gray-300 text-center">
             {project.start_date} - {project.end_date}
           </div>
-          <div className="bg-main-dark-2 rounded-xl p-2 my-2 cursor-default transition-main group-hover/content-container:shadow-skill-container">
+          <div className="mb-2 flex justify-center flex-wrap">
+            {mapProjectSkills(project.skills)}
+          </div>
+          <div className="bg-main-dark-2 rounded-xl p-2 mb-2 cursor-default transition-main group-hover/content-container:shadow-skill-container">
             {project.description}
           </div>
           <div>{project.text}</div>
+        </div>
+      );
+    });
+
+    return elements;
+  }
+
+  function mapProjectSkills(skills: string[]): ReactElement[] {
+    const elements: ReactElement[] = [];
+
+    skills.forEach((skill) => {
+      elements.push(
+        <div
+          key={elements.length}
+          className="py-1 px-2 me-2 mt-2 rounded-xl bg-main-dark-2 text-lg cursor-default last:me-0 transition-main hover:shadow-skill-container inline-block"
+        >
+          {skill}
         </div>
       );
     });

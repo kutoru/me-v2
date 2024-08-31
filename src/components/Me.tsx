@@ -21,7 +21,7 @@ export default function Me() {
           <div className="rounded-lg bg-main-light-3">
             <div
               className="bg-main-light-2 h-full rounded-s-lg transition-main group-hover/skill:shadow-skill-bar"
-              style={{ width: `${skill.amount}%` }}
+              style={{ width: `${skill.proficiency}%` }}
             ></div>
           </div>
         </div>

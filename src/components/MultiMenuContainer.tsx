@@ -3,7 +3,7 @@ import ContentContainer from "./ContentContainer";
 import { ReactComponent as IconMenu } from "../static/menu.svg";
 
 window.addEventListener("resize", (_) => {
-  if (window.innerWidth != lastWidth) {
+  if (window.innerWidth !== lastWidth) {
     lastWidth = window.innerWidth;
     updateSize();
   }

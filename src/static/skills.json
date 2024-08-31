@@ -1,38 +1,38 @@
 [
   {
     "name": "React",
-    "amount": 69
+    "proficiency": 69
   },
   {
     "name": "TypeScript",
-    "amount": 80
+    "proficiency": 80
   },
   {
     "name": "Kotlin",
-    "amount": 85
+    "proficiency": 85
   },
   {
     "name": "Rust",
-    "amount": 75
+    "proficiency": 75
   },
   {
     "name": "Some skill 1",
-    "amount": 8
+    "proficiency": 8
   },
   {
     "name": "Some skill 5",
-    "amount": 50
+    "proficiency": 50
   },
   {
     "name": "Some skill 2",
-    "amount": 0
+    "proficiency": 0
   },
   {
     "name": "Some skill 3",
-    "amount": 34
+    "proficiency": 34
   },
   {
     "name": "Some skill 6",
-    "amount": 92
+    "proficiency": 92
   }
 ]

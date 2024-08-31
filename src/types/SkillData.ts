@@ -1,6 +1,6 @@
 type SkillData = {
   name: string;
-  amount: number;
+  proficiency: number;
 };
 
 export default SkillData;
