@@ -73,14 +73,20 @@ function updateSize() {
 
 export default function MultiMenuContainer({
   id: idPrefix,
+  getSetExpanded,
   sideBarChild,
   mainContentChild,
 }: {
   id: string;
+  getSetExpanded?: (setCollapse: (expanded: boolean) => void) => void;
   sideBarChild: ReactNode;
   mainContentChild: ReactNode;
 }) {
   const [expanded, setExpanded] = useState(false);
+
+  if (getSetExpanded) {
+    getSetExpanded(setExpanded);
+  }
 
   mainContainerId = idPrefix + "-container";
   contentCoverId = idPrefix + "-content-cover";

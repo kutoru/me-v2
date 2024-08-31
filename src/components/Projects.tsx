@@ -5,19 +5,44 @@ import ProjectData from "../types/ProjectData";
 
 export default function Projects() {
   const projects = projectData as ProjectData[];
+  let setNavExpanded: ((expanded: boolean) => void) | undefined;
 
   function mapNavigation(): ReactElement[] {
     const elements: ReactElement[] = [];
 
     projects.forEach((project, index) => {
+      if (index != 0) {
+        elements.push(
+          <div key={elements.length} className="bg-main-dark-1 h-0.5" />
+        );
+      }
+
       elements.push(
-        <div key={elements.length} className="my-0.5 cursor-default md:my-2">
-          {index + 1}. <a href={"#" + project.name}>{project.name}</a>
+        <div
+          key={elements.length}
+          onClick={() => navigateToHeader(project.name)}
+          className="cursor-pointer p-2 transition-main hover:text-gray-400 hover:bg-main-dark-1 first:rounded-t-lg last:rounded-b-lg"
+        >
+          {index + 1}. {project.name}
         </div>
       );
     });
 
     return elements;
+  }
+
+  function navigateToHeader(headerId: string) {
+    const header = document.getElementById(headerId);
+    if (!header) {
+      return;
+    }
+
+    if (setNavExpanded) {
+      setNavExpanded(false);
+    }
+
+    const headerPos = header.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: headerPos - 16, behavior: "smooth" });
   }
 
   function mapProjects(): ReactElement[] {
@@ -82,12 +107,17 @@ export default function Projects() {
   return (
     <MultiMenuContainer
       id="projects"
+      getSetExpanded={(setExpanded) => {
+        setNavExpanded = setExpanded;
+      }}
       sideBarChild={
         <div>
           <div className="text-xl text-center font-semibold md:text-2xl">
             Navigation
           </div>
-          {mapNavigation()}
+          <div className="rounded-lg bg-main-dark-2 my-2 md:my-4">
+            {mapNavigation()}
+          </div>
         </div>
       }
       mainContentChild={<div>{mapProjects()}</div>}
