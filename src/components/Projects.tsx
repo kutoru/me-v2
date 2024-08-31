@@ -1,11 +1,11 @@
 import MultiMenuContainer from "./MultiMenuContainer";
 import projectData from "../static/projects.json";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import ProjectData from "../types/ProjectData";
 
 export default function Projects() {
+  const [navExpanded, setNavExpanded] = useState(false);
   const projects = projectData as ProjectData[];
-  let setNavExpanded: ((expanded: boolean) => void) | undefined;
 
   function mapNavigation(): ReactElement[] {
     const elements: ReactElement[] = [];
@@ -37,9 +37,7 @@ export default function Projects() {
       return;
     }
 
-    if (setNavExpanded) {
-      setNavExpanded(false);
-    }
+    setNavExpanded(false);
 
     const headerPos = header.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top: headerPos - 16, behavior: "smooth" });
@@ -107,9 +105,8 @@ export default function Projects() {
   return (
     <MultiMenuContainer
       id="projects"
-      getSetExpanded={(setExpanded) => {
-        setNavExpanded = setExpanded;
-      }}
+      expanded={navExpanded}
+      setExpanded={setNavExpanded}
       sideBarChild={
         <div>
           <div className="text-xl text-center font-semibold md:text-2xl">

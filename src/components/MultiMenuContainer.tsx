@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import ContentContainer from "./ContentContainer";
 import { ReactComponent as IconMenu } from "../static/menu.svg";
 
@@ -73,21 +73,17 @@ function updateSize() {
 
 export default function MultiMenuContainer({
   id: idPrefix,
-  getSetExpanded,
+  expanded,
+  setExpanded,
   sideBarChild,
   mainContentChild,
 }: {
   id: string;
-  getSetExpanded?: (setCollapse: (expanded: boolean) => void) => void;
+  expanded: boolean;
+  setExpanded: (expanded: boolean) => void;
   sideBarChild: ReactNode;
   mainContentChild: ReactNode;
 }) {
-  const [expanded, setExpanded] = useState(false);
-
-  if (getSetExpanded) {
-    getSetExpanded(setExpanded);
-  }
-
   mainContainerId = idPrefix + "-container";
   contentCoverId = idPrefix + "-content-cover";
 

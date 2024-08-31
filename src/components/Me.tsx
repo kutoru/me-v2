@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import MultiMenuContainer from "./MultiMenuContainer";
 import skillData from "../static/skills.json";
 import meSectionData from "../static/me-sections.json";
@@ -6,6 +6,8 @@ import SkillData from "../types/SkillData";
 import MeSectionData from "../types/MeSectionData";
 
 export default function Me() {
+  const [skillsExpanded, setSkillsExpanded] = useState(false);
+
   const skills = skillData as SkillData[];
   const sections = meSectionData as MeSectionData[];
 
@@ -57,6 +59,8 @@ export default function Me() {
   return (
     <MultiMenuContainer
       id="me"
+      expanded={skillsExpanded}
+      setExpanded={setSkillsExpanded}
       sideBarChild={
         <div>
           <div className="text-xl text-center font-semibold md:text-2xl">
