@@ -7,20 +7,21 @@ window.addEventListener("resize", () => {
   const newHeight = window.innerHeight;
   const newWidth = window.innerWidth;
 
-  if (newWidth !== lastWidth || newHeight !== lastHeight) {
-    lastHeight = window.innerHeight;
-    updateHeight();
-  }
+  setTimeout(() => {
+    if (newWidth !== lastWidth || newHeight !== lastHeight) {
+      lastHeight = window.innerHeight;
+      updateHeight();
+    }
 
-  if (newWidth !== lastWidth) {
-    lastWidth = newWidth;
-    updatePosition();
-  }
+    if (newWidth !== lastWidth) {
+      lastWidth = newWidth;
+      updatePosition();
+    }
+  }, 150);
 });
 
 let lastWidth = 0;
 let lastHeight = 0;
-let lastUpdated = 0;
 
 let mainContainerId = "";
 let sideContainerId = "";
@@ -63,13 +64,6 @@ function updateHeight() {
 }
 
 function updatePosition() {
-  const now = Date.now();
-  if (lastUpdated + 16 > now) {
-    return;
-  }
-
-  lastUpdated = now;
-
   const mainContainer = document.getElementById(mainContainerId);
   const sideContainer = document.getElementById(sideContainerId);
   const contentCover = document.getElementById(contentCoverId);
@@ -117,7 +111,7 @@ function updatePosition() {
 
   setTimeout(() => {
     mainContainer.style.transition = "transform 150ms ease-in-out";
-  }, 16);
+  }, 10);
 }
 
 export default function MultiMenuContainer({

@@ -3,8 +3,12 @@ import { useLocation } from "react-router-dom";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 
-document.addEventListener("DOMContentLoaded", (_) => changeTopMargin(false));
-window.addEventListener("resize", (_) => changeTopMargin(false));
+document.addEventListener("DOMContentLoaded", () => changeTopMargin(false));
+window.addEventListener("resize", () => {
+  setTimeout(() => {
+    changeTopMargin(false);
+  }, 150);
+});
 
 let header: HTMLElement | null = null;
 let content: HTMLElement | null = null;

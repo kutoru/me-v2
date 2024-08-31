@@ -39,8 +39,24 @@ export default function Projects() {
 
     setNavExpanded(false);
 
-    const headerPos = header.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: headerPos - 16, behavior: "smooth" });
+    const headerTop = header.getBoundingClientRect().top;
+    const headerPos = headerTop + window.scrollY;
+    const directionIsUp = headerTop < 0;
+
+    let offset = 16;
+    if (directionIsUp) {
+      const navHeader = document.getElementById("header");
+      if (navHeader) {
+        offset += navHeader.getBoundingClientRect().height;
+      }
+
+      const expandButton = document.getElementById("expand-button");
+      if (expandButton && window.innerWidth < 768) {
+        offset += expandButton.getBoundingClientRect().height + 4;
+      }
+    }
+
+    window.scrollTo({ top: headerPos - offset, behavior: "smooth" });
   }
 
   function mapProjects(): ReactElement[] {
