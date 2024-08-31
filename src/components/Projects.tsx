@@ -112,7 +112,7 @@ export default function Projects() {
           <div className="text-xl text-center font-semibold md:text-2xl">
             Navigation
           </div>
-          <div className="rounded-lg bg-main-dark-2 my-2 md:my-4">
+          <div className="rounded-lg bg-main-dark-2 mt-2 md:mt-4 transition-main hover:shadow-main-content-1">
             {mapNavigation()}
           </div>
         </div>

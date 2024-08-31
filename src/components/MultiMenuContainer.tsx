@@ -2,21 +2,67 @@ import { ReactNode, useEffect } from "react";
 import ContentContainer from "./ContentContainer";
 import { ReactComponent as IconMenu } from "../static/menu.svg";
 
-window.addEventListener("resize", (_) => {
-  if (window.innerWidth !== lastWidth) {
-    lastWidth = window.innerWidth;
-    updateSize();
+window.addEventListener("scroll", () => updateHeight());
+window.addEventListener("resize", () => {
+  const newHeight = window.innerHeight;
+  const newWidth = window.innerWidth;
+
+  if (newWidth !== lastWidth || newHeight !== lastHeight) {
+    lastHeight = window.innerHeight;
+    updateHeight();
+  }
+
+  if (newWidth !== lastWidth) {
+    lastWidth = newWidth;
+    updatePosition();
   }
 });
 
 let lastWidth = 0;
+let lastHeight = 0;
 let lastUpdated = 0;
 
 let mainContainerId = "";
+let sideContainerId = "";
 let contentCoverId = "";
 let expandedOuter = false;
 
-function updateSize() {
+function updateHeight() {
+  const header = document.getElementById("header");
+  const sideContainer = document.getElementById(sideContainerId);
+  const footer = document.getElementById("footer");
+
+  if (!header || !sideContainer || !footer) {
+    return;
+  }
+
+  let extraMargin = 0;
+  if (window.innerWidth >= 1024) {
+    extraMargin = 16;
+  }
+
+  const { height: headerHeight, top: headerPos } =
+    header.getBoundingClientRect();
+
+  let topMargin = headerHeight + headerPos;
+  if (topMargin < 0) {
+    topMargin = 0;
+  }
+
+  topMargin += extraMargin;
+
+  const footerPos = footer.getBoundingClientRect().top;
+
+  let bottomMargin = extraMargin;
+  if (footerPos < window.innerHeight) {
+    bottomMargin += window.innerHeight - footerPos;
+  }
+
+  sideContainer.style.paddingTop = `${topMargin}px`;
+  sideContainer.style.paddingBottom = `${bottomMargin}px`;
+}
+
+function updatePosition() {
   const now = Date.now();
   if (lastUpdated + 16 > now) {
     return;
@@ -24,50 +70,53 @@ function updateSize() {
 
   lastUpdated = now;
 
-  const mainCont = document.getElementById(mainContainerId);
-  const sectionCont = mainCont?.children[0] as HTMLElement | undefined;
-  const sideSection = sectionCont?.children[0] as HTMLElement | undefined;
+  const mainContainer = document.getElementById(mainContainerId);
+  const sideContainer = document.getElementById(sideContainerId);
   const contentCover = document.getElementById(contentCoverId);
+  const expandButton = document.getElementById("expand-button");
 
-  if (!mainCont || !sectionCont || !sideSection || !contentCover) {
+  if (!mainContainer || !sideContainer || !contentCover || !expandButton) {
     return;
   }
+
+  const offsetWidth = sideContainer.getBoundingClientRect().width;
 
   if (window.innerWidth >= 768) {
-    mainCont.style.width = "";
-    sectionCont.style.transform = "";
-    sectionCont.style.width = "";
-    sideSection.style.boxShadow = "";
+    mainContainer.style.paddingLeft = `${offsetWidth}px`;
+    mainContainer.style.transform = "";
+
+    contentCover.style.left = "";
+    contentCover.style.backgroundColor = "";
     contentCover.style.display = "";
+
+    expandButton.style.transform = "";
     return;
   }
 
-  const screenWidth = document
-    .getElementById("header")!
-    .getBoundingClientRect().width;
-  const offsetWidth = sideSection.getBoundingClientRect().width + 8;
-  const resultWidth = screenWidth + offsetWidth;
-
-  mainCont.style.width = `${resultWidth}px`;
-  sectionCont.style.width = `${resultWidth}px`;
+  mainContainer.style.paddingLeft = "";
 
   if (expandedOuter) {
-    const shadowSize = screenWidth - offsetWidth;
-    sectionCont.style.transform = `translate(0px, 0px)`;
-    sideSection.style.boxShadow = `0 0 ${shadowSize}px ${
-      shadowSize / 3
-    }px rgba(0, 0, 0, 1)`;
+    mainContainer.style.transform = `translate(${offsetWidth}px, 0px)`;
 
-    contentCover.style.left = `${offsetWidth}px`;
     contentCover.style.display = "block";
+    contentCover.style.left = `${offsetWidth}px`;
+    setTimeout(() => {
+      contentCover.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+    }, 150);
+
+    expandButton.style.transform = `translate(${offsetWidth}px, 0px)`;
   } else {
-    sectionCont.style.transform = `translate(-${offsetWidth}px, 0px)`;
-    sideSection.style.boxShadow = "";
+    mainContainer.style.transform = "";
+
+    contentCover.style.left = "";
+    contentCover.style.backgroundColor = "";
     contentCover.style.display = "";
+
+    expandButton.style.transform = "";
   }
 
   setTimeout(() => {
-    sectionCont.style.transition = "transform 150ms ease-in-out";
+    mainContainer.style.transition = "transform 150ms ease-in-out";
   }, 16);
 }
 
@@ -84,33 +133,41 @@ export default function MultiMenuContainer({
   sideBarChild: ReactNode;
   mainContentChild: ReactNode;
 }) {
-  mainContainerId = idPrefix + "-container";
+  mainContainerId = idPrefix + "-main-container";
+  sideContainerId = idPrefix + "-side-container";
   contentCoverId = idPrefix + "-content-cover";
 
   useEffect(() => {
     expandedOuter = expanded;
-    updateSize();
+    updatePosition();
+    updateHeight();
   }, [expanded]);
 
   return (
-    <div id={mainContainerId} className="flex flex-grow">
-      <div className="flex flex-row gap-2 flex-grow lg:gap-4">
-        <ContentContainer className="flex-shrink-0 pt-14 md:pt-2">
+    <div className="flex flex-grow">
+      <div id={sideContainerId} className="fixed pe-2 h-dvh top-0 lg:pe-4">
+        <ContentContainer
+          className="h-full overflow-y-scroll"
+          style={{ scrollbarWidth: "none" }}
+        >
           {sideBarChild}
         </ContentContainer>
+      </div>
 
-        <ContentContainer className="flex-grow pt-14 md:pt-2 -z-10 md:z-0">
+      <div id={mainContainerId} className="flex flex-row flex-grow">
+        <ContentContainer className="flex-grow pt-14 z-10 md:pt-2">
           {mainContentChild}
         </ContentContainer>
       </div>
 
       <div
         id="expand-button"
-        className="fixed left-0 -top-full z-20 w-full flex justify-center md:hidden"
+        className="fixed left-0 -top-full z-20 w-full flex justify-center md:hidden pointer-events-none"
+        style={{ transition: "transform 150ms ease-in-out" }}
       >
         <div
           onClick={() => setExpanded(!expanded)}
-          className="group/expand-button cursor-pointer rounded-xl bg-main-light-2 h-10 w-20 p-0.5 hover:bg-main-light-3 hover:shadow-main-content-1"
+          className="group/expand-button cursor-pointer pointer-events-auto rounded-xl bg-main-light-2 h-10 w-20 p-0.5 hover:bg-main-light-3 hover:shadow-main-content-1"
           style={{
             transition:
               "background-color 150ms ease-in-out, box-shadow 150ms ease-in-out",
@@ -122,7 +179,7 @@ export default function MultiMenuContainer({
 
       <div
         id={contentCoverId}
-        className="hidden cursor-pointer bg-transparent fixed top-0 size-full"
+        className="hidden cursor-pointer bg-transparent fixed left-0 top-0 h-dvh w-full transition-main"
         onClick={() => setExpanded(false)}
       ></div>
     </div>

@@ -16,7 +16,10 @@ export default function Me() {
 
     skills.forEach((skill) => {
       elements.push(
-        <div className="group/skill bg-main-dark-2 my-2 rounded-xl px-2 pb-2 pt-1 md:my-4 transition-main hover:shadow-skill-container">
+        <div
+          key={elements.length}
+          className="group/skill bg-main-dark-2 mt-2 rounded-xl px-2 pb-2 pt-1 md:mt-4 transition-main hover:shadow-skill-container"
+        >
           <div className="text-center text-lg cursor-default md:text-xl transition-main group-hover/skill:drop-shadow-skill">
             {skill.name}
           </div>
@@ -39,12 +42,15 @@ export default function Me() {
     sections.forEach((section, index) => {
       if (index > 0) {
         elements.push(
-          <div className="w-full h-3 rounded-full bg-main-dark-1 my-6 md:my-8 transition-main group-hover/content-container:shadow-skill-container" />
+          <div
+            key={elements.length}
+            className="w-full h-3 rounded-full bg-main-dark-1 my-6 md:my-8 transition-main group-hover/content-container:shadow-skill-container"
+          />
         );
       }
 
       elements.push(
-        <div>
+        <div key={elements.length}>
           <h1 className="text-2xl font-semibold text-center mb-2 md:mb-4 md:text-4xl">
             {section.title}
           </h1>
