@@ -46,7 +46,7 @@ export default function App({ content }: { content: ReactElement }) {
       <Header />
       <div
         id="content"
-        className="flex-grow flex text-main-light-1 text-2xl w-full lg:w-content-lg lg:mx-auto lg:mb-4 xl:w-content-xl"
+        className="flex-grow flex text-main-light-1 text-lg w-full lg:w-content-lg lg:mx-auto lg:mb-4 xl:w-content-xl md:text-2xl"
       >
         {content}
       </div>

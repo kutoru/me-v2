@@ -11,7 +11,7 @@ export default function Projects() {
 
     projects.forEach((project, index) => {
       elements.push(
-        <div key={elements.length} className="my-2 cursor-default">
+        <div key={elements.length} className="my-0.5 cursor-default md:my-2">
           {index + 1}. <a href={"#" + project.name}>{project.name}</a>
         </div>
       );
@@ -28,7 +28,7 @@ export default function Projects() {
         elements.push(
           <div
             key={elements.length}
-            className="w-full h-3 rounded-full bg-main-dark-1 my-8 transition-main group-hover/content-container:shadow-skill-container"
+            className="w-full h-3 rounded-full bg-main-dark-1 my-6 md:my-8 transition-main group-hover/content-container:shadow-skill-container"
           />
         );
       }
@@ -37,7 +37,7 @@ export default function Projects() {
         <div key={elements.length}>
           <h1
             id={project.name}
-            className="text-4xl font-semibold text-center mb-2"
+            className="text-3xl font-semibold text-center mb-2 md:text-4xl"
           >
             {project.link ? (
               <a href={project.link}>{project.name}</a>
@@ -45,7 +45,7 @@ export default function Projects() {
               project.name
             )}
           </h1>
-          <div className="text-lg text-gray-300 text-center">
+          <div className="text-base text-gray-300 text-center cursor-default md:text-lg">
             {project.start_date} - {project.end_date}
           </div>
           <div className="mb-2 flex justify-center flex-wrap">
@@ -69,7 +69,7 @@ export default function Projects() {
       elements.push(
         <div
           key={elements.length}
-          className="py-1 px-2 me-2 mt-2 rounded-xl bg-main-dark-2 text-lg cursor-default last:me-0 transition-main hover:shadow-skill-container inline-block"
+          className="py-1 px-2 me-2 mt-2 rounded-xl bg-main-dark-2 text-base cursor-default last:me-0 md:text-lg transition-main hover:shadow-skill-container"
         >
           {skill}
         </div>
@@ -84,7 +84,9 @@ export default function Projects() {
       id="projects"
       sideBarChild={
         <div>
-          <div className="text-center font-semibold">Navigation</div>
+          <div className="text-xl text-center font-semibold md:text-2xl">
+            Navigation
+          </div>
           {mapNavigation()}
         </div>
       }

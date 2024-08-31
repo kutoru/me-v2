@@ -108,7 +108,7 @@ export default function MultiMenuContainer({
       >
         <div
           onClick={() => setExpanded(!expanded)}
-          className="group/expand-button cursor-pointer rounded-xl bg-main-light-2 h-10 w-24 p-0.5 hover:bg-main-light-3 hover:shadow-main-content-1"
+          className="group/expand-button cursor-pointer rounded-xl bg-main-light-2 h-10 w-20 p-0.5 hover:bg-main-light-3 hover:shadow-main-content-1"
           style={{
             transition:
               "background-color 150ms ease-in-out, box-shadow 150ms ease-in-out",

@@ -22,7 +22,7 @@ export default function HeaderItem({
     <div
       onClick={() => navigate(item.href)}
       className={
-        "group/header-item flex-1 text-center p-2 select-none cursor-pointer z-10 transition-main hover:bg-main-dark-3 hover:shadow-header-item " +
+        "group/header-item flex-1 text-center text-xl p-1.5 select-none cursor-pointer z-10 transition-main md:text-2xl md:p-2 hover:bg-main-dark-3 hover:shadow-header-item " +
         (active ? "underline" : "")
       }
     >
