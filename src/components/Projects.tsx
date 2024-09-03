@@ -1,6 +1,6 @@
 import MultiMenuContainer from "./MultiMenuContainer";
 import projectData from "../static/projects.json";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import ProjectData from "../types/ProjectData";
 
 export default function Projects({
@@ -12,6 +12,37 @@ export default function Projects({
 }) {
   const [navExpanded, setNavExpanded] = useState(false);
   const projects = projectData as ProjectData[];
+
+  useEffect(() => {
+    function handleScroll() {
+      const headers = projects
+        .map((value) => {
+          const id = encodeURI(value.name);
+          const top = document.getElementById(id)?.getBoundingClientRect().top;
+          return { id, top };
+        })
+        .filter((value) => {
+          return value.top !== undefined;
+        });
+
+      if (headers.length !== projects.length || projects.length === 0) {
+        return;
+      }
+
+      const closest = headers.sort((a, b) => {
+        return Math.abs(a.top!) - Math.abs(b.top!);
+      })[0];
+
+      const oldLocation = window.location.toString();
+      const newLocation = oldLocation.split("#")[0] + "#" + closest.id;
+      if (oldLocation !== newLocation) {
+        window.history.replaceState(null, "", newLocation);
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function mapNavigation(): ReactElement[] {
     const elements: ReactElement[] = [];
@@ -26,7 +57,7 @@ export default function Projects({
       elements.push(
         <div
           key={elements.length}
-          onClick={() => navigateToHeader(project.name)}
+          onClick={() => navigateToHeader(encodeURI(project.name))}
           className="cursor-pointer p-2 transition-main hover:text-gray-400 hover:bg-main-dark-1 first:rounded-t-lg last:rounded-b-lg"
         >
           {index + 1}. {project.name}
@@ -76,7 +107,7 @@ export default function Projects({
       elements.push(
         <div key={elements.length}>
           <h1
-            id={project.name}
+            id={encodeURI(project.name)}
             className="text-3xl font-semibold text-center mb-2 md:text-4xl"
           >
             {project.link ? (
