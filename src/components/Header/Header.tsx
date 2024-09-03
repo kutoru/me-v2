@@ -1,100 +1,15 @@
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import HeaderData from "../../types/HeaderData";
 import HeaderItem from "./HeaderItem";
-import { useLocation } from "react-router-dom";
 
-window.addEventListener("scroll", toggleHeader);
-
-let header: HTMLElement | null = null;
-let button: HTMLElement | null = null;
-
-let lastScrollPosition = 0;
-let lastTopPosition = 0;
-let currentTopValue = 0;
-
-function toggleHeader(_: Event) {
-  loadElements();
-  if (!header) {
-    return;
-  }
-
-  let buttonHeight = 0;
-  if (button) {
-    buttonHeight = button.getBoundingClientRect().height + 16;
-  }
-
-  const headerHeight = header.getBoundingClientRect().height;
-  const headerScrollOffset = headerHeight + 16 + buttonHeight;
-
-  if (lastScrollPosition - window.scrollY < 0) {
-    lastScrollPosition = window.scrollY;
-    currentTopValue = lastTopPosition - window.scrollY;
-    updatePosition(currentTopValue, headerHeight);
-  } else {
-    lastScrollPosition = window.scrollY;
-
-    if (currentTopValue < headerScrollOffset * -1) {
-      lastTopPosition = window.scrollY - headerScrollOffset;
-    }
-
-    currentTopValue = lastTopPosition - window.scrollY;
-    if (currentTopValue > 0) {
-      lastTopPosition = window.scrollY;
-      updatePosition(0, headerHeight);
-    } else {
-      updatePosition(currentTopValue, headerHeight);
-    }
-  }
-}
-
-function loadElements(forceReload: boolean = false) {
-  if (!header || forceReload) {
-    header = document.getElementById("header");
-  }
-  if (!button || forceReload) {
-    button = document.getElementById("expand-button");
-  }
-}
-
-function updatePosition(topValue?: number, headerHeight?: number) {
-  updateHeaderPosition(topValue);
-  updateButtonPosition(topValue, headerHeight);
-}
-
-function updateHeaderPosition(topValue?: number) {
-  if (topValue === undefined) {
-    topValue = currentTopValue;
-  }
-
-  if (header) {
-    header.style.top = `${topValue}px`;
-  }
-}
-
-function updateButtonPosition(topValue?: number, headerHeight?: number) {
-  if ((!headerHeight && !header) || !button) {
-    return;
-  }
-
-  if (topValue === undefined) {
-    topValue = currentTopValue;
-  }
-
-  if (!headerHeight) {
-    headerHeight = header!.getBoundingClientRect().height;
-  }
-
-  button.style.top = `calc(${headerHeight}px + 0.5rem + ${topValue}px)`;
-}
-
-export default function Header() {
-  const location = useLocation();
-
-  useEffect(() => {
-    loadElements(true);
-    updateButtonPosition(0);
-  }, [location]);
-
+export default function Header({
+  headerRect,
+  updateHeaderRect,
+}: {
+  headerRect?: DOMRect;
+  updateHeaderRect: (rect?: DOMRect) => void;
+}) {
+  const refHeader = useRef<HTMLDivElement>(null);
   const items: HeaderData[] = [
     {
       title: "About Me",
@@ -113,7 +28,77 @@ export default function Header() {
     },
   ];
 
-  const currentPath = window.location.pathname;
+  type PositionInfo = {
+    top: number;
+    lastScroll: number;
+    lastTop: number;
+  };
+
+  const [positionInfo, setPositionInfo] = useState<PositionInfo>({
+    top: 0,
+    lastScroll: 0,
+    lastTop: 0,
+  });
+
+  useEffect(() => {
+    function handleScroll() {
+      setPositionInfo(getHeaderPosition());
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [getHeaderPosition]);
+
+  useEffect(() => {
+    function handleResize() {
+      const newRect = refHeader.current?.getBoundingClientRect();
+      if (newRect?.height !== headerRect?.height) {
+        updateHeaderRect(newRect);
+      }
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [headerRect, updateHeaderRect]);
+
+  useEffect(() => {
+    updateHeaderRect(refHeader.current?.getBoundingClientRect());
+  }, [positionInfo.top, updateHeaderRect]);
+
+  function getHeaderPosition(): PositionInfo {
+    const scrollPosition = window.scrollY;
+    const headerScrollOffset = 128;
+
+    let headerTopPosition = positionInfo.top;
+    let lastScrollPosition = positionInfo.lastScroll;
+    let lastTopPosition = positionInfo.lastTop;
+
+    if (lastScrollPosition - scrollPosition < 0) {
+      if (
+        lastTopPosition - scrollPosition > headerScrollOffset * -1 ||
+        headerTopPosition > headerScrollOffset * -1
+      ) {
+        headerTopPosition = lastTopPosition - scrollPosition;
+      }
+    } else {
+      if (headerTopPosition < headerScrollOffset * -1) {
+        lastTopPosition = scrollPosition - headerScrollOffset;
+      }
+
+      if (lastTopPosition - scrollPosition > 0) {
+        lastTopPosition = scrollPosition;
+        headerTopPosition = 0;
+      } else {
+        headerTopPosition = lastTopPosition - scrollPosition;
+      }
+    }
+
+    return {
+      lastScroll: scrollPosition,
+      lastTop: lastTopPosition,
+      top: headerTopPosition,
+    };
+  }
 
   function mapItems(): ReactElement[] {
     const elements: ReactElement[] = [];
@@ -132,7 +117,7 @@ export default function Header() {
         <HeaderItem
           key={elements.length}
           item={item}
-          active={item.href === currentPath}
+          active={item.href === window.location.pathname}
         />
       );
     });
@@ -141,7 +126,13 @@ export default function Header() {
   }
 
   return (
-    <div id="header" className="fixed w-full z-20">
+    <div
+      ref={refHeader}
+      className="fixed w-full z-20"
+      style={{
+        top: `${positionInfo.top}px`,
+      }}
+    >
       <div className="peer/header flex flex-row text-main-light-1 text-2xl bg-main-dark-2">
         {mapItems()}
       </div>

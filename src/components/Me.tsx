@@ -5,7 +5,13 @@ import meSectionData from "../static/me-sections.json";
 import SkillData from "../types/SkillData";
 import MeSectionData from "../types/MeSectionData";
 
-export default function Me() {
+export default function Me({
+  headerRect,
+  footerRect,
+}: {
+  headerRect?: DOMRect;
+  footerRect?: DOMRect;
+}) {
   const [skillsExpanded, setSkillsExpanded] = useState(false);
 
   const skills = skillData as SkillData[];
@@ -64,7 +70,8 @@ export default function Me() {
 
   return (
     <MultiMenuContainer
-      id="me"
+      headerRect={headerRect}
+      footerRect={footerRect}
       expanded={skillsExpanded}
       setExpanded={setSkillsExpanded}
       sideBarChild={

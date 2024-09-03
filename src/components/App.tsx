@@ -1,60 +1,42 @@
-import { ReactElement, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { ReactElement, useState } from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer";
+import PageType from "../types/PageType";
+import Me from "./Me";
+import Projects from "./Projects";
+import ErrorPage from "./ErrorPage";
 
-document.addEventListener("DOMContentLoaded", () => changeTopMargin(false));
-window.addEventListener("resize", () => {
-  setTimeout(() => {
-    changeTopMargin(false);
-  }, 150);
-});
+export default function App({ pageType }: { pageType: PageType }) {
+  const [headerRect, updateHeaderRect] = useState<DOMRect>();
+  const [footerRect, updateFooterRect] = useState<DOMRect>();
 
-let header: HTMLElement | null = null;
-let content: HTMLElement | null = null;
-let lastHeight = 0;
-
-function changeTopMargin(force: boolean) {
-  if (!header || force) {
-    header = document.getElementById("header");
+  function getCurrentPage(): ReactElement {
+    switch (pageType) {
+      case PageType.Me:
+        return <Me headerRect={headerRect} footerRect={footerRect} />;
+      case PageType.Projects:
+        return <Projects headerRect={headerRect} footerRect={footerRect} />;
+      case PageType.Error:
+        return <ErrorPage />;
+      default:
+        return <ErrorPage customMessage="Not Found" />;
+    }
   }
-  if (!header) {
-    return;
-  }
-
-  const height = header.getBoundingClientRect().height;
-  if (height === lastHeight && !force) {
-    return;
-  }
-
-  if (!content || force) {
-    content = document.getElementById("content");
-  }
-  if (!content) {
-    return;
-  }
-
-  lastHeight = height;
-  content.style.marginTop = `calc(${height}px + var(--top-body-spacing))`;
-}
-
-export default function App({ content }: { content: ReactElement }) {
-  const location = useLocation();
-
-  useEffect(() => {
-    changeTopMargin(true);
-  }, [location]);
 
   return (
     <div className="flex flex-col min-h-dvh bg-main-dark-1 font-main">
-      <Header />
+      <Header headerRect={headerRect} updateHeaderRect={updateHeaderRect} />
       <div
-        id="content"
+        style={{
+          marginTop: headerRect
+            ? `calc(${headerRect.height}px + var(--top-body-spacing))`
+            : "",
+        }}
         className="flex-grow flex text-main-light-1 text-lg w-full lg:w-content-lg lg:mx-auto lg:mb-4 xl:w-content-xl md:text-2xl"
       >
-        {content}
+        {getCurrentPage()}
       </div>
-      <Footer />
+      <Footer updateFooterRect={updateFooterRect} />
     </div>
   );
 }

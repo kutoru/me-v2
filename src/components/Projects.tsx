@@ -3,7 +3,13 @@ import projectData from "../static/projects.json";
 import { ReactElement, useState } from "react";
 import ProjectData from "../types/ProjectData";
 
-export default function Projects() {
+export default function Projects({
+  headerRect,
+  footerRect,
+}: {
+  headerRect?: DOMRect;
+  footerRect?: DOMRect;
+}) {
   const [navExpanded, setNavExpanded] = useState(false);
   const projects = projectData as ProjectData[];
 
@@ -11,7 +17,7 @@ export default function Projects() {
     const elements: ReactElement[] = [];
 
     projects.forEach((project, index) => {
-      if (index != 0) {
+      if (index !== 0) {
         elements.push(
           <div key={elements.length} className="bg-main-dark-1 h-0.5" />
         );
@@ -45,14 +51,9 @@ export default function Projects() {
 
     let offset = 16;
     if (directionIsUp) {
-      const navHeader = document.getElementById("header");
-      if (navHeader) {
-        offset += navHeader.getBoundingClientRect().height;
-      }
-
-      const expandButton = document.getElementById("expand-button");
-      if (expandButton && window.innerWidth < 768) {
-        offset += expandButton.getBoundingClientRect().height + 4;
+      offset += headerRect!.height;
+      if (window.innerWidth < 768) {
+        offset += 44;
       }
     }
 
@@ -120,7 +121,8 @@ export default function Projects() {
 
   return (
     <MultiMenuContainer
-      id="projects"
+      headerRect={headerRect}
+      footerRect={footerRect}
       expanded={navExpanded}
       setExpanded={setNavExpanded}
       sideBarChild={

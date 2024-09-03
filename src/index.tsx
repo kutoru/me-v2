@@ -3,20 +3,18 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./static/index.css";
 import App from "./components/App";
-import Me from "./components/Me";
-import Projects from "./components/Projects";
-import ErrorPage from "./components/ErrorPage";
+import PageType from "./types/PageType";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App content={<Me />} />,
-    errorElement: <App content={<ErrorPage />} />,
+    element: <App pageType={PageType.Me} />,
+    errorElement: <App pageType={PageType.Error} />,
   },
   {
     path: "/projects",
-    element: <App content={<Projects />} />,
-    errorElement: <App content={<ErrorPage />} />,
+    element: <App pageType={PageType.Projects} />,
+    errorElement: <App pageType={PageType.Error} />,
   },
 ]);
 

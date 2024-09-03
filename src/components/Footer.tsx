@@ -1,10 +1,36 @@
+import { useEffect, useRef } from "react";
 import { ReactComponent as IconGitHub } from "../static/github.svg";
 import { ReactComponent as IconMail } from "../static/mail.svg";
+import { useLocation } from "react-router-dom";
 
-export default function Footer() {
+export default function Footer({
+  updateFooterRect,
+}: {
+  updateFooterRect: (rect: DOMRect | undefined) => void;
+}) {
+  const refFooter = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    setTimeout(() => {
+      updateFooterRect(refFooter.current?.getBoundingClientRect());
+    }, 10);
+  }, [location, updateFooterRect]);
+
+  useEffect(() => {
+    function handleScroll() {
+      if (refFooter.current) {
+        updateFooterRect(refFooter.current.getBoundingClientRect());
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [updateFooterRect]);
+
   return (
     <div
-      id="footer"
+      ref={refFooter}
       className="group/footer text-center bg-main-dark-2 z-20 transition-main hover:shadow-footer"
     >
       <div className="h-1 bg-main-light-2 transition-main group-hover/footer:shadow-separator" />
