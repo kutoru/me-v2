@@ -2,6 +2,7 @@ import MultiMenuContainer from "./MultiMenuContainer";
 import projectData from "../static/projects.json";
 import { ReactElement, useEffect, useState } from "react";
 import ProjectData from "../types/ProjectData";
+import { useLocation } from "react-router-dom";
 
 export default function Projects({
   headerRect,
@@ -11,7 +12,12 @@ export default function Projects({
   footerRect?: DOMRect;
 }) {
   const [navExpanded, setNavExpanded] = useState(false);
+  const location = useLocation();
   const projects = projectData as ProjectData[];
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location]);
 
   useEffect(() => {
     function handleScroll() {
