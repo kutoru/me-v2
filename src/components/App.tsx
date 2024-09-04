@@ -2,7 +2,7 @@ import { ReactElement, useState } from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import PageType from "../types/PageType";
-import Me from "./Me";
+import Me from "./Me/Me";
 import Projects from "./Projects";
 import ErrorPage from "./ErrorPage";
 

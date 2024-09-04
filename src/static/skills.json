@@ -1,7 +1,7 @@
 [
   {
     "name": "React",
-    "proficiency": 69
+    "proficiency": 75
   },
   {
     "name": "TypeScript",
@@ -9,30 +9,62 @@
   },
   {
     "name": "Kotlin",
-    "proficiency": 85
+    "proficiency": 75
   },
   {
     "name": "Rust",
     "proficiency": 75
   },
   {
-    "name": "Some skill 1",
-    "proficiency": 8
+    "name": "Android Development",
+    "proficiency": 60
   },
   {
-    "name": "Some skill 5",
+    "name": "REST APIs",
+    "proficiency": 80
+  },
+  {
+    "name": "TailwindCSS",
+    "proficiency": 75
+  },
+  {
+    "name": "Docker",
+    "proficiency": 65
+  },
+  {
+    "name": "ProtoBufs",
+    "proficiency": 75
+  },
+  {
+    "name": "SQL",
+    "proficiency": 70
+  },
+  {
+    "name": "Node.js",
+    "proficiency": 75
+  },
+  {
+    "name": "WebSocket",
+    "proficiency": 60
+  },
+  {
+    "name": "C",
+    "proficiency": 40
+  },
+  {
+    "name": "GitHub",
+    "proficiency": 75
+  },
+  {
+    "name": "Golang",
     "proficiency": 50
   },
   {
-    "name": "Some skill 2",
-    "proficiency": 0
+    "name": "C++",
+    "proficiency": 40
   },
   {
-    "name": "Some skill 3",
-    "proficiency": 34
-  },
-  {
-    "name": "Some skill 6",
-    "proficiency": 92
+    "name": "Vue",
+    "proficiency": 35
   }
 ]
