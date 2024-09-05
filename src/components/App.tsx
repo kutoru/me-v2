@@ -1,23 +1,14 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import PageType from "../types/PageType";
 import Me from "./Me/Me";
 import Projects from "./Projects";
 import ErrorPage from "./ErrorPage";
-import { useLocation } from "react-router-dom";
 
 export default function App({ pageType }: { pageType: PageType }) {
   const [headerRect, updateHeaderRect] = useState<DOMRect>();
   const [footerRect, updateFooterRect] = useState<DOMRect>();
-
-  const location = useLocation();
-
-  useEffect(() => {
-    if (!location.hash) {
-      window.scrollTo({ top: 0 });
-    }
-  }, [location]);
 
   function getCurrentPage(): ReactElement {
     switch (pageType) {

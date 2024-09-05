@@ -2,6 +2,7 @@ import MultiMenuContainer from "./MultiMenuContainer";
 import projectData from "../static/projects.json";
 import { ReactElement, useEffect, useState } from "react";
 import ProjectData from "../types/ProjectData";
+import { useLocation } from "react-router-dom";
 
 const projects = projectData as ProjectData[];
 projects.forEach((value) => {
@@ -86,6 +87,18 @@ export default function Projects({
   footerRect?: DOMRect;
 }) {
   const [navExpanded, setNavExpanded] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+    if (location.hash) {
+      const headerId = location.hash.slice(1);
+
+      setTimeout(() => {
+        navigateToHeader(headerId);
+      }, 10);
+    }
+  }, [location]);
 
   useEffect(() => {
     function handleScroll() {

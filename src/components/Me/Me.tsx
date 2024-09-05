@@ -1,10 +1,23 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import MultiMenuContainer from "../MultiMenuContainer";
 import skillData from "../../static/skills.json";
 import meSectionData from "../../static/me-sections.json";
 import SkillData from "../../types/SkillData";
 import MeSectionData from "../../types/MeSectionData";
 import SkillCard from "./SkillCard";
+import { useLocation } from "react-router-dom";
+
+const sections = meSectionData as MeSectionData[];
+sections.forEach((value) => {
+  value.text = formatText(value.text);
+});
+
+function formatText(text: string): string {
+  return text
+    .split("\n")
+    .map((value) => "&emsp;" + value)
+    .join("<br>");
+}
 
 export default function Me({
   headerRect,
@@ -14,9 +27,12 @@ export default function Me({
   footerRect?: DOMRect;
 }) {
   const [skillsExpanded, setSkillsExpanded] = useState(false);
-
+  const location = useLocation();
   const skills = skillData as SkillData[];
-  const sections = meSectionData as MeSectionData[];
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location]);
 
   function mapSkills(): ReactElement[] {
     const elements: ReactElement[] = [];
@@ -48,7 +64,7 @@ export default function Me({
           <h1 className="text-2xl font-semibold text-center mb-2 md:mb-4 md:text-4xl">
             {section.title}
           </h1>
-          {section.text}
+          <div dangerouslySetInnerHTML={{ __html: section.text }} />
         </div>
       );
     });
