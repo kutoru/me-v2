@@ -2,7 +2,81 @@ import MultiMenuContainer from "./MultiMenuContainer";
 import projectData from "../static/projects.json";
 import { ReactElement, useEffect, useState } from "react";
 import ProjectData from "../types/ProjectData";
-import { useLocation } from "react-router-dom";
+
+const projects = projectData as ProjectData[];
+projects.forEach((value) => {
+  value.text = formatText(value.text, value.skills);
+});
+
+function formatText(text: string, skills: string[]): string {
+  let textLower = text.toLowerCase();
+  const prefix = '<span class="text-main-light-2">';
+  const postfix = "</span>";
+
+  skills
+    .map((value) => value.toLowerCase())
+    .forEach((skill) => {
+      let lastIndex = -1;
+
+      while (true) {
+        const startIndex = textLower.indexOf(skill, lastIndex + 1);
+        if (startIndex === -1) {
+          break;
+        }
+
+        const endIndex = startIndex + skill.length;
+
+        if (!isFullWord(textLower, startIndex, endIndex)) {
+          lastIndex = startIndex;
+          continue;
+        }
+
+        text =
+          text.slice(0, startIndex) +
+          prefix +
+          text.slice(startIndex, endIndex) +
+          postfix +
+          text.slice(endIndex);
+
+        textLower =
+          textLower.slice(0, startIndex) +
+          prefix +
+          postfix +
+          textLower.slice(startIndex);
+
+        lastIndex = startIndex + prefix.length + postfix.length;
+      }
+    });
+
+  return text
+    .split("\n")
+    .map((value) => "&emsp;" + value)
+    .join("<br>");
+}
+
+function isFullWord(
+  text: string,
+  startIndex: number,
+  endIndex: number
+): boolean {
+  let startIsValid = false;
+  let endIsValid = false;
+
+  const allowedChars = " .,()";
+
+  if (startIndex === 0 || allowedChars.includes(text.charAt(startIndex - 1))) {
+    startIsValid = true;
+  }
+
+  if (
+    endIndex === text.length ||
+    allowedChars.includes(text.charAt(endIndex))
+  ) {
+    endIsValid = true;
+  }
+
+  return startIsValid && endIsValid;
+}
 
 export default function Projects({
   headerRect,
@@ -12,12 +86,6 @@ export default function Projects({
   footerRect?: DOMRect;
 }) {
   const [navExpanded, setNavExpanded] = useState(false);
-  const location = useLocation();
-  const projects = projectData as ProjectData[];
-
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, [location]);
 
   useEffect(() => {
     function handleScroll() {
@@ -131,7 +199,7 @@ export default function Projects({
           <div className="bg-main-dark-2 rounded-xl p-2 mb-2 cursor-default transition-main group-hover/content-container:shadow-skill-container">
             {project.description}
           </div>
-          <div>{project.text}</div>
+          <div dangerouslySetInnerHTML={{ __html: project.text }} />
         </div>
       );
     });

@@ -4,8 +4,10 @@ import { ReactComponent as IconMail } from "../static/mail.svg";
 import { useLocation } from "react-router-dom";
 
 export default function Footer({
+  footerRect,
   updateFooterRect,
 }: {
+  footerRect: DOMRect | undefined;
   updateFooterRect: (rect: DOMRect | undefined) => void;
 }) {
   const refFooter = useRef<HTMLDivElement>(null);
@@ -20,13 +22,20 @@ export default function Footer({
   useEffect(() => {
     function handleScroll() {
       if (refFooter.current) {
-        updateFooterRect(refFooter.current.getBoundingClientRect());
+        const rect = refFooter.current.getBoundingClientRect();
+        if (
+          rect.top <= window.innerHeight ||
+          !footerRect ||
+          footerRect.top <= window.innerHeight
+        ) {
+          updateFooterRect(rect);
+        }
       }
     }
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [updateFooterRect]);
+  }, [footerRect, updateFooterRect]);
 
   return (
     <div

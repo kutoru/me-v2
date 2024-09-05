@@ -1,11 +1,10 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import MultiMenuContainer from "../MultiMenuContainer";
 import skillData from "../../static/skills.json";
 import meSectionData from "../../static/me-sections.json";
 import SkillData from "../../types/SkillData";
 import MeSectionData from "../../types/MeSectionData";
 import SkillCard from "./SkillCard";
-import { useLocation } from "react-router-dom";
 
 export default function Me({
   headerRect,
@@ -15,14 +14,9 @@ export default function Me({
   footerRect?: DOMRect;
 }) {
   const [skillsExpanded, setSkillsExpanded] = useState(false);
-  const location = useLocation();
 
   const skills = skillData as SkillData[];
   const sections = meSectionData as MeSectionData[];
-
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, [location]);
 
   function mapSkills(): ReactElement[] {
     const elements: ReactElement[] = [];
