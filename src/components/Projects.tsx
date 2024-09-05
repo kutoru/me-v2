@@ -63,7 +63,7 @@ function isFullWord(
   let startIsValid = false;
   let endIsValid = false;
 
-  const allowedChars = " .,()";
+  const allowedChars = " .,()s";
 
   if (startIndex === 0 || allowedChars.includes(text.charAt(startIndex - 1))) {
     startIsValid = true;
