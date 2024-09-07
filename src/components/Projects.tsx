@@ -90,13 +90,14 @@ export default function Projects({
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0 });
     if (location.hash) {
       const headerId = location.hash.slice(1);
 
       setTimeout(() => {
         navigateToHeader(headerId);
       }, 10);
+    } else {
+      window.scrollTo({ top: 0 });
     }
   }, [location]);
 

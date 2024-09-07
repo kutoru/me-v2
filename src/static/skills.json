@@ -66,5 +66,9 @@
   {
     "name": "Vue",
     "proficiency": 35
+  },
+  {
+    "name": "Next.js",
+    "proficiency": 60
   }
 ]
