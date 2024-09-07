@@ -6,6 +6,7 @@ import SkillData from "../../types/SkillData";
 import MeSectionData from "../../types/MeSectionData";
 import SkillCard from "./SkillCard";
 import { useLocation } from "react-router-dom";
+import { ReactComponent as IconQuestion } from "../../static/question.svg";
 
 const sections = meSectionData as MeSectionData[];
 sections.forEach((value) => {
@@ -72,6 +73,30 @@ export default function Me({
     return elements;
   }
 
+  function mapSkillInfoItems() {
+    const items = [
+      { step: 100, text: "know everything about it" },
+      { step: 83, text: "very confident in it" },
+      { step: 66, text: "pretty good at it" },
+      { step: 50, text: "can use it" },
+      { step: 33, text: "know it, but not confident" },
+      { step: 16, text: "barely heard of it" },
+      { step: 0, text: "don't know anything about it" },
+    ];
+
+    return items.map((item, index) => {
+      return (
+        <div key={index}>
+          {index !== 0 && <div className="bg-gray-400 w-full h-px my-1" />}
+          <span className="text-main-light-2 font-semibold">
+            {item.step}%
+          </span>{" "}
+          - {item.text}
+        </div>
+      );
+    });
+  }
+
   return (
     <MultiMenuContainer
       headerRect={headerRect}
@@ -80,8 +105,16 @@ export default function Me({
       setExpanded={setSkillsExpanded}
       sideBarChild={
         <div>
-          <div className="text-xl text-center font-semibold md:text-2xl">
-            My technical skills
+          <div className="flex gap-2">
+            <div className="my-auto text-xl text-center font-semibold md:text-2xl">
+              My technical skills
+            </div>
+            <div className="group/skill-info-btn relative size-7 flex justify-center items-center rounded-full bg-main-dark-2 my-auto md:size-8 transition-main hover:shadow-skill-container">
+              <IconQuestion className="fill-main-light-1 size-4 transition-main group-hover/skill-info-btn:fill-gray-400 md:size-5" />
+              <div className="invisible z-10 shadow-main-content-2 opacity-0 p-2 text-base absolute bg-[#000000e5] w-40 rounded-md right-0 top-full transition-main md:text-lg md:w-48 group-hover/skill-info-btn:opacity-100 group-hover/skill-info-btn:visible">
+                {mapSkillInfoItems()}
+              </div>
+            </div>
           </div>
           {mapSkills()}
         </div>
