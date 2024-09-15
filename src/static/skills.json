@@ -70,5 +70,29 @@
   {
     "name": "Next.js",
     "proficiency": 60
+  },
+  {
+    "name": "Linux",
+    "proficiency": 55
+  },
+  {
+    "name": "AWS",
+    "proficiency": 40
+  },
+  {
+    "name": "Python",
+    "proficiency": 40
+  },
+  {
+    "name": "Firebase",
+    "proficiency": 40
+  },
+  {
+    "name": "GitHub Actions",
+    "proficiency": 40
+  },
+  {
+    "name": "DSA",
+    "proficiency": 50
   }
 ]
